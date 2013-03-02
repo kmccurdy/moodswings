@@ -20,19 +20,12 @@ h1, h2, .nav-link, .playlist-btn {
 h1 {font-size: 1em;} 
 h1 a {text-decoration: underline; hover: #00C8FF;}
 h1, h2, h3, p { margin:0 0 10px;}
-h2 {color: white; }
-h2 {font-size:1.1em; }
+h2 {color: #434343; }
+h2 {font-size:2em; }
 h2 {text-align: center;}
 p { line-height:1.35;  }
 a {color: white; hover: #00C8FF; text-decoration: none;
-}
 
-h3{
-	font-family:'Avenir', sans-serif; font-weight:100; 
-	font-size:2em;
-	text-align: center;
-	color: #FFFFFF;
-	margin: auto;
 }
 
 blockquote { 
@@ -54,7 +47,6 @@ pre {
 	min-width: 330px;
 	margin: auto;
 	padding-top: 0px;
-	font-family:'Century Gothic', sans-serif; font-weight:100;
 	text-align: center;
 	vertical-align: middle;
 }
@@ -99,7 +91,7 @@ pre {
 
 .main {
 	position:relative;
-	margin:10px;
+	margin-top:20px;
 	min-width:500px;
 	-webkit-transition-duration:0.6s;-moz-transition-duration:0.6s;-ms-transition-duration:0.6s;-o-transition-duration:0.6s;transition-duration:0.6s;
 
@@ -147,3 +139,26 @@ body {
    margin-left:40px;
 }
 
+#form {
+   width: 326px;
+   margin: 0 auto;
+   position: relative;
+}
+
+.text_field {
+   background-color: rgba(255, 255, 255, 0.5);
+   border: none;
+   font-size: 30px;
+   padding: 10px;
+   position:absolute;
+}
+
+.submit_field {
+   position: absolute;
+   right:0;
+   float: left;
+
+   border: none;
+   font-size: 30px;
+   padding: 10px;
+}
