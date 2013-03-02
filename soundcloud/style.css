@@ -1,7 +1,23 @@
 #mood-form {
-  padding: 2%;
+  margin: 2%;
 }
 
 #player {
-  padding: 2%;
+  margin: 2%;
+}
+
+#mood-grid {
+  margin: 2%;
+  width: 150px;
+  height: 150px;
+  border: 2px solid #ccc;
+}
+
+#mood-dragger {
+   position: 0px, 0px;
+   margin: 0%;
+   padding: 0%;
+   width: 10px;
+   height: 10px;
+  border: 2px solid "red";
 }

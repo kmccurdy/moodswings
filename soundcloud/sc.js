@@ -13,35 +13,64 @@ $.each(emotion_data, function(ind, obj){
     obj.arousal = 1 - obj.arousal;
 })
 
+    var inspect = {};
+var emoCoords, gridDims;
+
 $(document).ready(function() {
 
-    var minBPM = 60, bpmRange = 120, bpmQueryRange = 10;
-    var emotion, maxBPM;
+    var params = {};
+    gridDims = {height: $('#mood-grid').height(), width: $('#mood-grid').width() };
+    var	bpmRange = 80, bpmQueryRange = 10;
+    params.minBPM = 60;
 
     $('#form').submit(function(e){
 	e.preventDefault();
-	var mood = $('#form input[name="mood"]').val();
+	params.mood = $('#form input[name="mood"]').val();
 	$.each(emotion_data, function(ind, obj){
-//	    if ()
-	    if (obj["name"] === mood) emotion = obj;
+	    if (obj["name"] === params.mood) params.emotion = obj;
 	});
-	maxBPM = typeof emotion != 'undefined' ? minBPM + bpmRange * emotion.arousal : 105;
-	bpmQueryRange += bpmQueryRange * (.5 -  typeof emotion != 'undefined' ? emotion.arousal : 0) // normalize: more extreme values get larger bpm ranges
-	minBPM = maxBPM - bpmQueryRange;
+	params.maxBPM = params.minBPM + bpmRange *  (typeof params.emotion != 'undefined' ? params.emotion.arousal : .5 );
 
-	console.log(emotion);
+	bpmQueryRange += (typeof params.emotion != 'undefined' ? (.5 - params.emotion.arousal) : 0) * bpmQueryRange // normalize: more extreme values get larger bpm ranges
+	params.minBPM = params.maxBPM - bpmQueryRange;
 
-	// get a bunch of tracks within parameters
-	SC.get('/tracks', {bpm: {from: minBPM, to: maxBPM}, tags: mood }, function(tracks) { 
-	    for (var i = 0; i < tracks.length; i++) {
-		$('#player').append('<p>' + tracks[i].title + '</p>');
-		console.log(tracks[i].title);
-	    }
-	});
+	getTracks(params);
+
+	$('#mood-dragger').css("top", typeof params.emotion != 'undefined' ?
+			       (1 - params.emotion.valence) * gridDims.height :
+			      gridDims.height * .25); // TODO figure out this default assumption
+	$('#mood-dragger').css("left", typeof params.emotion != 'undefined' ? 
+			       (1 - params.emotion.arousal) * gridDims.width :
+			      gridDims.width * .5); //TODO this one too
+
     });
-/*    SC.get('/tracks/293',function(track){
-        SC.oEmbed(track.permalink_url, document.getElementById('player'));
+
+    $('#mood-dragger').draggable();
+    $('#mood-dragger').on("dragstop",function(event, ui){
+	params.maxBPM = params.minBPM + bpmRange * (ui.position.left/gridDims.width);
+	params.minBPM = params.maxBPM - bpmQueryRange;
+	getTracks(params);
+	console.log(ui.position);
     });
-*/
+
 });
 
+getTracks = function(params) {
+	// get a bunch of tracks within parameters, stream random track
+	SC.get('/tracks', {bpm: {from: params.minBPM, to: params.maxBPM}, tags: params.mood }, function(tracks) { 
+	    if (tracks.length === 0) {	 
+		SC.get('/tracks', {bpm: {from: params.minBPM, to: params.maxBPM}}, function(newtracks) {
+		    var sel = Math.floor(Math.random() * newtracks.length);
+		     SC.oEmbed(newtracks[sel].permalink_url, document.getElementById('player'));
+/*		    var trackIDs = [];
+		    $.each(newtracks, function(ind, tr) {trackIDs.push(tr.id);})
+			inspect["trackIDs"] = trackIDs;  */
+		    console.log(newtracks[sel].bpm);
+		});
+	    } else {
+		var sel = Math.floor(Math.random() * tracks.length);
+		SC.oEmbed(tracks[sel].permalink_url, document.getElementById('player'));
+		console.log(tracks[sel].bpm);
+	    }	    
+	});
+}
