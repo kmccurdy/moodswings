@@ -23,5 +23,21 @@ var emotion_data = [
     { name: "excited",
       valence: 120,
       arousal: 96
+    },
+    { name: "calm",
+      valence: 114,
+      arousal: 561
+    },
+    { name: "frustrated",
+      valence: 545,
+      arousal: 204
+    },
+    { name: "angry",
+      valence: 613,
+      arousal: 140
+    },
+    { name: "adventurous",
+      valence: 190,
+      arousal: 31
     }
 ]
