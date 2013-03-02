@@ -5,7 +5,7 @@ SC.initialize({
     redirect_uri: 'https://dl.dropbox.com/u/35819006/bghackathon/moodswings/soundcloud/index.html'
 });
 
-
+// normalize emotion dimensions
 $.each(emotion_data, function(ind, obj){
     obj.valence /= norm.valence;
     obj.valence = 1 - obj.valence;
@@ -13,12 +13,12 @@ $.each(emotion_data, function(ind, obj){
     obj.arousal = 1 - obj.arousal;
 })
 
-    var inspect = {};
 var emoCoords, gridDims;
+    var params = {};
 
 $(document).ready(function() {
 
-    var params = {};
+    $('#mood-dragger').hide();
     gridDims = {height: $('#mood-grid').height(), width: $('#mood-grid').width() };
     var	bpmRange = 80, bpmQueryRange = 10;
     params.minBPM = 60;
@@ -36,15 +36,22 @@ $(document).ready(function() {
 
 	getTracks(params);
 
-	$('#mood-dragger').css("top", typeof params.emotion != 'undefined' ?
+		$('#mood-dragger').css("top", typeof params.emotion != 'undefined' ?
 			       (1 - params.emotion.valence) * gridDims.height :
 			      gridDims.height * .25); // TODO figure out this default assumption
 	$('#mood-dragger').css("left", typeof params.emotion != 'undefined' ? 
 			       (1 - params.emotion.arousal) * gridDims.width :
 			      gridDims.width * .5); //TODO this one too
-
     });
 
+    $('#mood-dragger').css("top", typeof params.emotion != 'undefined' ?
+			   (1 - params.emotion.valence) * gridDims.height :
+			   gridDims.height * .25); // TODO figure out this default assumption
+    $('#mood-dragger').css("left", typeof params.emotion != 'undefined' ? 
+			   (1 - params.emotion.arousal) * gridDims.width :
+			   gridDims.width * .5); //TODO this one too
+    $('#mood-dragger').show();
+	
     $('#mood-dragger').draggable();
     $('#mood-dragger').on("dragstop",function(event, ui){
 	params.maxBPM = params.minBPM + bpmRange * (ui.position.left/gridDims.width);
@@ -65,12 +72,12 @@ getTracks = function(params) {
 /*		    var trackIDs = [];
 		    $.each(newtracks, function(ind, tr) {trackIDs.push(tr.id);})
 			inspect["trackIDs"] = trackIDs;  */
-		    console.log(newtracks[sel].bpm);
+		    //console.log(newtracks[sel].bpm);
 		});
 	    } else {
 		var sel = Math.floor(Math.random() * tracks.length);
 		SC.oEmbed(tracks[sel].permalink_url, document.getElementById('player'));
-		console.log(tracks[sel].bpm);
-	    }	    
+		//console.log(tracks[sel].bpm);
+	    }	 
 	});
 }
