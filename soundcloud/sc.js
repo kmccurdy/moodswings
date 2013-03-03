@@ -43,9 +43,13 @@ $(document).ready(function() {
     $('#form').submit(function(e){
 	e.preventDefault();
 	params.mood = $('#form input[name="mood"]').val();
+
 	$.each(emotion_data, function(ind, obj){
 	    if (obj["name"] === params.mood) params.emotion = obj;
 	});
+
+	if (params.emotion.name != params.mood) {delete params.emotion};
+
 	params.maxBPM = params.minBPM + bpmRange *  (typeof params.emotion != 'undefined' ? params.emotion.arousal : .5 );
 
 	bpmQueryRange += (typeof params.emotion != 'undefined' ? (.5 - params.emotion.arousal) : 0) * bpmQueryRange // normalize: more extreme values get larger bpm ranges

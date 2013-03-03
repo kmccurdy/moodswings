@@ -189,3 +189,51 @@ body {
    width:80%;
 
 } 
+
+/* Social Media */
+#socialmedia {
+ margin: 50px;
+ float: right;
+}
+
+#socialmedia ul li {
+ float: left;
+}
+ 
+#socialmedia ul li a {
+  display: block;
+  width:60px;
+  height:60px;
+  text-indent: -9999em;
+}
+
+#socialmedia ul li.linkedIn {
+ background:url(../images/socialNav.png) 0px 64px;
+}
+#socialmedia ul li.twitter {
+ background:url(../images/socialNav.png) -60px 64px; 
+}
+
+#socialmedia ul li.facebook {
+ background:url(../images/socialNav.png) -120px 64px; 
+}
+
+#socialmedia ul li.rss {
+ background:url(../images/socialNav.png) -180px 64px; 
+}
+
+#socialmedia ul li.linkedIn:hover {
+ background:url(../images/socialNav.png) 0px 0px; 
+}
+
+#socialmedia ul li.twitter:hover {
+ background:url(../images/socialNav.png) -60px 0px; 
+}
+
+#socialmedia ul li.facebook:hover {
+ background:url(../images/socialNav.png) -120px 0px; 
+}
+
+#socialmedia ul li.rss:hover {
+ background:url(../images/socialNav.png) -180px 0px; 
+}

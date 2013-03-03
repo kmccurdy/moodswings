@@ -39,5 +39,9 @@ var emotion_data = [
     { name: "adventurous",
       valence: 190,
       arousal: 31
-    }
+    },
+    { name: "sad",
+      valence: 618,
+      arousal: 464
+    }    
 ]
