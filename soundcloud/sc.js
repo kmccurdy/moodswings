@@ -33,12 +33,12 @@ $(document).ready(function() {
     params.minBPM = 60;
 
     // make voronoi vertices for emotion space
-    var vor = d3.geom.voronoi(emotion_data.map(function(d){
+/*    var vor = d3.geom.voronoi(emotion_data.map(function(d){
 	return [(1 - d.arousal) * gridDims.width, (1 - d.valence) * gridDims.height]
     }));
     var polygon_grid = $.each
     console.log(vor);
-
+*/
     // on form submit, update mood grid, get soundcloud tracks
     $('#form').submit(function(e){
 	e.preventDefault();
