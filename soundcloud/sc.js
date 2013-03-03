@@ -5,6 +5,8 @@ SC.initialize({
     redirect_uri: 'https://dl.dropbox.com/u/35819006/bghackathon/moodswings/soundcloud/index.html'
 });
 
+var tumblr_client_id = "api_key=fuiKNFp9vQFvjLNvx4sUwti4Yb5yGutBN4Xh10LXZhhRKjWlV4";
+
 // normalize emotion dimensions
 $.each(emotion_data, function(ind, obj){
     obj.valence /= norm.valence;
@@ -23,6 +25,13 @@ $(document).ready(function() {
     var	bpmRange = 80, bpmQueryRange = 10;
     params.minBPM = 60;
 
+    // make voronoi vertices for emotion space
+    var vor = d3.geom.voronoi(emotion_data.map(function(d){
+	return [(1 - d.arousal) * gridDims.width, (1 - d.valence) * gridDims.height]
+    }));
+    console.log(vor);
+
+    // on form submit, update mood grid, get soundcloud tracks
     $('#form').submit(function(e){
 	e.preventDefault();
 	params.mood = $('#form input[name="mood"]').val();
@@ -35,8 +44,9 @@ $(document).ready(function() {
 	params.minBPM = params.maxBPM - bpmQueryRange;
 
 	getTracks(params);
+	getPics(params);
 
-		$('#mood-dragger').css("top", typeof params.emotion != 'undefined' ?
+	$('#mood-dragger').css("top", typeof params.emotion != 'undefined' ?
 			       (1 - params.emotion.valence) * gridDims.height :
 			      gridDims.height * .25); // TODO figure out this default assumption
 	$('#mood-dragger').css("left", typeof params.emotion != 'undefined' ? 
@@ -66,7 +76,7 @@ getTracks = function(params) {
 	// get a bunch of tracks within parameters, stream random track
 	SC.get('/tracks', {bpm: {from: params.minBPM, to: params.maxBPM}, tags: params.mood }, function(tracks) { 
 	    if (tracks.length === 0) {	 
-		SC.get('/tracks', {bpm: {from: params.minBPM, to: params.maxBPM}}, function(newtracks) {
+		SC.get('/tracks', {bpm: {from: params.minBPM, to: params.maxBPM}, q: params.mood}, function(newtracks) {
 		    var sel = Math.floor(Math.random() * newtracks.length);
 		     SC.oEmbed(newtracks[sel].permalink_url, document.getElementById('player'));
 /*		    var trackIDs = [];
@@ -81,3 +91,34 @@ getTracks = function(params) {
 	    }	 
 	});
 }
+
+getPics = function(params) {
+    $.ajax(
+	'http://api.tumblr.com/v2/tagged?tag=' + params.mood + '&' + tumblr_client_id,
+	{
+	    dataType: 'jsonp',
+	    success: function (data) { 
+		do { params.pic = getRandomPic(data) }
+		while (typeof params.pic == 'undefined'); 
+		$('body').css({'background-image': 'url(' + params.pic + ')',
+			       'background-repeat': 'no-repeat',
+			       'background-size' : '100%, 100%' }) // $('body').width() +',' +  $('body').height()
+		return(params);
+	    },
+	    limit: 100,
+	}
+    );
+}
+
+getRandomPic = function(data) {
+    var posts = data.response;
+    var sel = Math.floor(Math.random() * posts.length);
+    var randomPhotos = posts[sel].photos;
+    if (typeof randomPhotos != 'undefined') {
+	var photo_sel = Math.floor(Math.random() * randomPhotos.length);
+	return (randomPhotos[photo_sel].original_size.url);
+    } else {
+	getRandomPic(data);
+    }
+}
+
