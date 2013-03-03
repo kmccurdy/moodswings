@@ -1,7 +1,7 @@
 moodswings
 ==========
 
-link to [public html file](https://dl.dropbox.com/u/35819006/bghackathon/moodswings/soundcloud/index.html)
+[LIVE DEMO](http://www.k-means.net/mood-swings.html)
 
 ## Resources
 
