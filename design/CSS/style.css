@@ -171,11 +171,17 @@ body {
 }
 
 #mood-grid {
+   background-image: url(../images/Infographic.png);
    margin: 0 auto;
    position: relative;
    text-align: center;
    width:288px;
    height:288px;
+}
+
+#mood-dragger {
+   color: #33ffff;
+   font-weight: bold;
 }
 
 #player {

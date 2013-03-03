@@ -22,6 +22,13 @@ $(document).ready(function() {
 
     $('#mood-dragger').hide();
     gridDims = {height: $('#mood-grid').height(), width: $('#mood-grid').width() };
+    $('#mood-grid').css({
+//	"left": $('#form input[name="mood"]').offset().left + ($('#form input[name="mood"]').width() - $('#mood-grid').width())
+    })
+    $('#mood-dragger').css({
+	"display": "inline"
+    })
+    $('#mood-dragger').removeClass("f-left");
     var	bpmRange = 80, bpmQueryRange = 10;
     params.minBPM = 60;
 
@@ -29,6 +36,7 @@ $(document).ready(function() {
     var vor = d3.geom.voronoi(emotion_data.map(function(d){
 	return [(1 - d.arousal) * gridDims.width, (1 - d.valence) * gridDims.height]
     }));
+    var polygon_grid = $.each
     console.log(vor);
 
     // on form submit, update mood grid, get soundcloud tracks
@@ -47,27 +55,33 @@ $(document).ready(function() {
 	getPics(params);
 
 	$('#mood-dragger').css("top", typeof params.emotion != 'undefined' ?
-			       (1 - params.emotion.valence) * gridDims.height :
+			       (1 - params.emotion.arousal) * gridDims.height :
 			      gridDims.height * .25); // TODO figure out this default assumption
 	$('#mood-dragger').css("left", typeof params.emotion != 'undefined' ? 
-			       (1 - params.emotion.arousal) * gridDims.width :
+			       (.5 - params.emotion.valence) * gridDims.width :
 			      gridDims.width * .5); //TODO this one too
+//	$('#mood-dragger').text(params.mood);
     });
 
     $('#mood-dragger').css("top", typeof params.emotion != 'undefined' ?
-			   (1 - params.emotion.valence) * gridDims.height :
-			   gridDims.height * .25); // TODO figure out this default assumption
+			   (1 - params.emotion.arousal) * gridDims.height :
+			   gridDims.height * .5); // TODO figure out this default assumption
     $('#mood-dragger').css("left", typeof params.emotion != 'undefined' ? 
-			   (1 - params.emotion.arousal) * gridDims.width :
-			   gridDims.width * .5); //TODO this one too
+			   (.5 - params.emotion.valence) * gridDims.width :
+			   gridDims.width * -.25); //TODO this one too
     $('#mood-dragger').show();
 	
     $('#mood-dragger').draggable();
     $('#mood-dragger').on("dragstop",function(event, ui){
-	params.maxBPM = params.minBPM + bpmRange * (ui.position.left/gridDims.width);
+	console.log(ui.position);
+	var newCoords = ui.position;
+	
+	
+	
+	params.maxBPM = params.minBPM + bpmRange * (newCoords.top/gridDims.height);
 	params.minBPM = params.maxBPM - bpmQueryRange;
 	getTracks(params);
-	console.log(ui.position);
+	getPics(params);
     });
 
 });
