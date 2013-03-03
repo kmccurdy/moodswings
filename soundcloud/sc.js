@@ -48,7 +48,9 @@ $(document).ready(function() {
 	    if (obj["name"] === params.mood) params.emotion = obj;
 	});
 
-	if (params.emotion.name != params.mood) {delete params.emotion};
+	if (typeof params.emotion != 'undefined') {
+	    if (params.emotion.name != params.mood) {delete params.emotion};
+	}
 
 	params.maxBPM = params.minBPM + bpmRange *  (typeof params.emotion != 'undefined' ? params.emotion.arousal : .5 );
 
