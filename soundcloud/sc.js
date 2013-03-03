@@ -62,19 +62,19 @@ $(document).ready(function() {
 
 	$('#mood-dragger').css("top", typeof params.emotion != 'undefined' ?
 			       (1 - params.emotion.arousal) * gridDims.height :
-			      gridDims.height * .25); // TODO figure out this default assumption
+			      gridDims.height * .47); // TODO figure out this default assumption
 	$('#mood-dragger').css("left", typeof params.emotion != 'undefined' ? 
 			       (.5 - params.emotion.valence) * gridDims.width :
-			      gridDims.width * .5); //TODO this one too
+			      0); //TODO this one too
 //	$('#mood-dragger').text(params.mood);
     });
 
     $('#mood-dragger').css("top", typeof params.emotion != 'undefined' ?
 			   (1 - params.emotion.arousal) * gridDims.height :
-			   gridDims.height * .5); // TODO figure out this default assumption
+			   gridDims.height * .47); // TODO figure out this default assumption
     $('#mood-dragger').css("left", typeof params.emotion != 'undefined' ? 
 			   (.5 - params.emotion.valence) * gridDims.width :
-			   gridDims.width * -.25); //TODO this one too
+			   0); //TODO this one too
     $('#mood-dragger').show();
 	
     $('#mood-dragger').draggable();
