@@ -17,11 +17,16 @@ h1, h2, .nav-link, .playlist-btn {
 	color: #33ffff;
 }
 
-h1 {font-size: 1em;} 
+h3 {
+   font-size: 14px;
+   color: #33ffff;
+}
+
+h1 {font-size: .9em;} 
 h1 a {text-decoration: underline; hover: #00C8FF;}
 h1, h2, h3, p { margin:0 0 10px;}
 h2 {color: #434343; }
-h2 {font-size:2em; }
+h2 {font-size:1.8em; }
 h2 {text-align: center;}
 p { line-height:1.35;  }
 a {color: white; hover: #00C8FF; text-decoration: none;
@@ -161,4 +166,15 @@ body {
    border: none;
    font-size: 30px;
    padding: 10px;
+}
+
+#mood-grid {
+   margin: 500px, 0, 0, auto;
+   position: relative;
+
+}
+
+.player {
+   margin: auto;
+
 }
